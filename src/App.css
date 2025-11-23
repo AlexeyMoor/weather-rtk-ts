@@ -51,12 +51,16 @@ input[type="text"] {
   outline: none;
 }
 
+input[type="text"]::placeholder {
+  color: rgba(134, 230, 255, 0.82);
+  font-weight: lighter;
+}
+
 button {
   border: 2px solid #103a65;
-  border-bottom: 4px solid #103a65;
   padding: 8px 20px;
   margin: 0 2px;
-  border-radius: 2px;
+  border-radius: 10px;
   cursor: pointer;
   background-color: #235d9c;
   color: #fff;
@@ -64,15 +68,13 @@ button {
 }
 
 button:hover {
-  border-bottom: 2px solid #103a65;
   position: relative;
-  top: 2px;
+  top: 1.5px;
+  background-color: #005cbf;
 }
 
 button:active {
-  border-bottom: 2px solid transparent;
   position: relative;
-  top: 2px;
 }
 
 .info h1 {
@@ -85,13 +87,18 @@ button:active {
   font-weight: bold;
 }
 
+.infoWeath p {
+  color: #fff100;
+}
+
 .infoWeath {
   width: 60%;
   font-size: 20px;
   color: #fff;
 }
 
-.error {
-  color: #041f3c;
+.error-text {
+  color: #ff3333;
+  font-size: 1.5em;
   font-weight: bold;
 }
