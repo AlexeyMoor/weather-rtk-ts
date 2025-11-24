@@ -8,13 +8,13 @@ export const weatherApi = createApi({
   endpoints: builder => ({
     getWeatherByCity: builder.query<WeatherInfo, string>({
       query: city => `?q=${city}&appid=${api_key}&units=metric`,
-      keepUnusedDataFor: 10,
+      keepUnusedDataFor: 100,
       transformResponse: (data: WeatherInfoResponse) => ({
         city: data.name,
         temp: data.main.temp,
         pressure: data.main.pressure,
         country: data.sys.country,
-        sunset: new Date(data.sys.sunset * 1000)
+        sunset: (new Date(data.sys.sunset * 1000)).toLocaleTimeString(),
       })
     })
   })
