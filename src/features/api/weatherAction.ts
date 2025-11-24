@@ -1,29 +1,23 @@
 import {api_key, base_url} from "../../utils/constants.ts";
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import type {WeatherInfo} from "../../utils/types";
-
-interface WeatherApiResponse {
-  sys: { country: string; sunset: number };
-  name: string;
-  main: { temp: number; pressure: number };
-}
+import type {WeatherInfo, WeatherInfoResponse} from "../../utils/types";
 
 export const weatherApi = createApi({
   reducerPath: 'weatherApi',
   baseQuery: fetchBaseQuery({baseUrl: base_url}),
-  keepUnusedDataFor: 300, // 300sec. = 5min cache data
   endpoints: builder => ({
-    getWeatherByCity: builder.query({
+    getWeatherByCity: builder.query<WeatherInfo, string>({
       query: city => `?q=${city}&appid=${api_key}&units=metric`,
-      transformResponse: (response: WeatherApiResponse): WeatherInfo => ({
-        country: response.sys.country,
-        city: response.name,
-        temp: response.main.temp,
-        pressure: response.main.pressure,
-        sunset: response.sys.sunset,
-      }),
-    }),
-  }),
-});
+      keepUnusedDataFor: 10,
+      transformResponse: (data: WeatherInfoResponse) => ({
+        city: data.name,
+        temp: data.main.temp,
+        pressure: data.main.pressure,
+        country: data.sys.country,
+        sunset: new Date(data.sys.sunset * 1000)
+      })
+    })
+  })
+})
 
 export const {useGetWeatherByCityQuery} = weatherApi;

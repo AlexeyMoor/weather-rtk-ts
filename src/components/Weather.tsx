@@ -3,10 +3,10 @@ import {useGetWeatherByCityQuery} from "../features/api/weatherAction.ts";
 
 const Weather = () => {
   const city = useAppSelector(state => state.city);
-  const {data, error, isLoading} = useGetWeatherByCityQuery(city, { skip: !city });
+  const {data, error, isLoading} = useGetWeatherByCityQuery(city, {skip: !city, refetchOnMountOrArgChange: true});
 
   if (!city) {
-    return <div className={'infoWeath'}>Enter a city name</div>
+    return <div className={'infoWeath'}>Enter city name</div>
   }
 
   if (isLoading) {
@@ -19,12 +19,12 @@ const Weather = () => {
 
   return (
     <div className={'infoWeath'}>
-      {!!data && // !! преобразование значения в булево (true/false) для проверки наличия данных
+      {!!data &&
         <>
           <p>Location: {data.country}, {data.city}</p>
           <p>Temp: {data.temp}</p>
           <p>Pressure: {data.pressure}</p>
-          <p>Sunset: {new Date(data.sunset * 1000).toLocaleTimeString()}</p>
+          <p>Sunset: {data.sunset.toLocaleTimeString()}</p>
         </>
       }
     </div>
